@@ -39,8 +39,10 @@ def criar():
             flash('Erro ao cadastrar o livro. Ele já existe.')
             return redirect(url_for('novo'))
 
-        cursor.execute("""INSERT INTO LIVRO(NOME, AUTOR, LIVRO, DATAPUBLICACAO)
-                            VALUES(?,?,?,?)""", (nome, autor, None, ano))
+        cursor.execute("""
+            INSERT INTO LIVRO (NOME, AUTOR, DATAPUBLICACAO)
+            VALUES (?, ?, ?)
+        """, (nome, autor, ano))
         con.commit()
         flash('Livro cadastrado com sucesso.')
 
@@ -62,14 +64,20 @@ def editar(id):
             autor = request.form['autor']
             ano = request.form['ano']
 
-            cursor.execute("""UPDATE LIVRO SET NOME = ?, AUTOR = ?, DATAPUBLICACAO = ? 
-                              WHERE ID_LIVRO = ?""", (nome, autor, ano, id))
+            cursor.execute("""
+                UPDATE LIVRO
+                SET NOME = ?, AUTOR = ?, DATAPUBLICACAO = ?
+                WHERE ID_LIVRO = ?
+            """, (nome, autor, ano, id))
             con.commit()
             flash('Livro atualizado com sucesso.')
             return redirect(url_for('index'))
 
-        cursor.execute("""SELECT ID_LIVRO, NOME, AUTOR, DATAPUBLICACAO 
-                          FROM LIVRO WHERE ID_LIVRO = ?""", (id,))
+        cursor.execute("""
+            SELECT ID_LIVRO, NOME, AUTOR, DATAPUBLICACAO
+            FROM LIVRO
+            WHERE ID_LIVRO = ?
+        """, (id,))
         livro = cursor.fetchone()
 
         if not livro:
@@ -90,7 +98,7 @@ def editar(id):
 def deletar(id):
     cursor = con.cursor()
     try:
-        cursor.execute("""DELETE FROM LIVRO WHERE ID_LIVRO = ?""", (id,))
+        cursor.execute("DELETE FROM LIVRO WHERE ID_LIVRO = ?", (id,))
         con.commit()
         flash('Livro deletado com sucesso.')
     except Exception as e:
