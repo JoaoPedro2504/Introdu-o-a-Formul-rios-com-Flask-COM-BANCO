@@ -41,8 +41,6 @@
                     <td>
                         <a href="{{ url_for('editar', id=livro[0]) }}" class="btn-editar">Editar</a>
 
-                        &nbsp;|&nbsp;
-
                         <form action="{{ url_for('deletar', id=livro[0]) }}" method="post" class="form-deletar" onsubmit="return confirm('Tem certeza que deseja deletar este livro?');">
                             <button type="submit" class="btn-deletar">Deletar</button>
                         </form>
